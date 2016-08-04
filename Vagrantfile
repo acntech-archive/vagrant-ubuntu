@@ -62,4 +62,16 @@ Vagrant.configure(2) do |config|
   # config.push.define "atlas" do |push|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
+
+  # Installing docker on guest
+  config.vm.provision "docker"
+
+  # Enable provisioning with puppet
+  config.vm.provision "puppet" do |puppet|
+   puppet.manifests_path = "puppet/manifests"
+   puppet.module_path = "puppet/modules"
+   puppet.manifest_file = "default.pp"
+   puppet.options = "--verbose --debug"
+ end
+  
 end
