@@ -1,7 +1,7 @@
 #
-#
 # Build AcnTech Vagrant box
 #
+include maven
 
 # Install latest jdk
 class { "java":
