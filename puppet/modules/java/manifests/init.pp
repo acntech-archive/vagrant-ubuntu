@@ -1,10 +1,5 @@
 class java {
 
-	# TODO: Få denne global
-	Exec {
-		path => [ '/sbin', '/bin', '/usr/sbin', '/usr/bin' ]
-	}
-
 	exec { "download-java":
 		command => "wget --no-cookies --no-check-certificate --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz\" -O /tmp/jdk.tar.gz",
 	}
@@ -23,5 +18,4 @@ class java {
 		content => "export JAVA_HOME=/opt/java/default
 					export PATH=\$PATH:\$JAVA_HOME/bin",
 	}
-
 }

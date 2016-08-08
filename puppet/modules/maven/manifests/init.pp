@@ -4,10 +4,6 @@ class maven (
 	$maven_folder = "apache-maven-3.3.9",
 	$tmp = "/tmp") {
 
-	Exec {
-		path => [ '/sbin', '/bin', '/usr/sbin', '/usr/bin' ]
-	}
-
 	exec { "download-maven" :
 		command => "wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O ${tmp}/${maven_archive}",
 	}
