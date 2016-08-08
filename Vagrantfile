@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "accenture/ubuntu64"
+  config.vm.box = "acntech/ubuntu64"
 
   # Synced folders
   config.vm.synced_folder "puppet/modules", "/puppet"
@@ -27,8 +27,8 @@ Vagrant.configure(2) do |config|
      vb.name = "AcnTech Development Environment"
    end
   
-  # Provisioning
-  config.vm.provision "shell", inline: "apt-get update --fix-missing"
+  # Provisioning TODO: Ser ut til å komme i konflikt med automatisk update i ubuntu.
+  #config.vm.provision "shell", inline: "apt-get update --fix-missing"
 
   # Installing docker on guest
   config.vm.provision "docker"
