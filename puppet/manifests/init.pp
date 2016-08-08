@@ -9,3 +9,4 @@ Exec {
 include java
 include maven
 include intellij
+include git
