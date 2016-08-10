@@ -1,4 +1,4 @@
-class git {
+class system {
 
 	package { "git":
 		ensure => "installed",
