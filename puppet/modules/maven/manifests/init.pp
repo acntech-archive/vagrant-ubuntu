@@ -1,38 +1,34 @@
 class maven (
-	$maven_home = "/opt/maven",
-	$maven_archive = "apache-maven-3.3.9-bin.tar.gz",
-	$maven_folder = "apache-maven-3.3.9",
-	$tmp = "/tmp") {
+		$maven_version = "3.3.9", # Change this value to upgrade maven.
+    $maven_home = "/opt/maven",
+    $maven_default = "/opt/maven/default",
+    $maven_archive = "apache-maven-${maven_version}-bin.tar.gz",
+    $maven_folder = "apache-maven-${maven_version}",
+    $tmp = "/tmp") {
 
-	exec { "download-maven" :
-		command => "wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O ${tmp}/${maven_archive}",
-	}
+    exec { "download-maven" :
+        command => "wget https://www.apache.org/dist/maven/maven-3/${maven_version}/binaries/${maven_archive} -O ${tmp}/${maven_archive}",
+    }
 
-	exec { "extract-maven":
-		command => "tar xvf ${maven_archive}",
-		creates => "${maven_home}",
-		cwd => "${tmp}",
-		require => Exec["download-maven"],
-	}
+		file { "${maven_home}" :
+        ensure => "directory",
+        before => Exec["extract-maven"],
+    }
 
-	exec { "move-maven":
-		command => "mv ${maven_folder} ${maven_home}",
-		creates => "${maven_home}",
-		cwd => "${tmp}",
-		require => Exec["extract-maven"],
-	}
+    exec { "extract-maven":
+        command => "tar -xzvf ${tmp}/${maven_archive} -C ${maven_home} && rm ${tmp}/${maven_archive}",
+        require => Exec["download-maven"],
+    }
 
-	file { "${maven_home}/maven":
-		ensure => "directory",
-		owner => "vagrant",
-		mode => "0750",
-		recurse => true,
-		require => Exec["move-maven"],
-	}
+		file { "maven-symlink":
+				path => "${maven_default}",
+				ensure => "link",
+				target => "${maven_home}/${maven_folder}",
+				require => Exec["extract-maven"],
+		}
 
-	file { "/etc/profile.d/maven.sh":
-		content => "export MAVEN_HOME=${maven_home}
-					export M2=\$MAVEN_HOME/bin
-					export PATH=\$PATH:\$M2",	
-	}
+    file { "/etc/profile.d/maven.sh":
+        content => "export MAVEN_HOME=${maven_default}\nexport M2=\$MAVEN_HOME/bin\nexport PATH=\$PATH:\$M2\n",
+        require => Exec["extract-maven"],
+    }
 }
