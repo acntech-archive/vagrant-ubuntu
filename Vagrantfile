@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |vb|
      # Display the VirtualBox GUI when booting the machine
-     vb.gui = false
+     vb.gui = true
 
      # Customize the amount of memory on the VM
      vb.memory = "3000"
@@ -30,5 +30,8 @@ Vagrant.configure(2) do |config|
 
  # Update packages
  config.vm.provision "shell", inline: "apt-get -y update"
+
+ # Make sure IntelliJ dekstop icon is present
+ config.vm.provision "file", source: "puppet/modules/intellij/files/intellij.desktop", destination: "~/.local/share/applications/intellij.desktop"
 
 end
