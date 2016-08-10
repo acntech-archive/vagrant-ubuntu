@@ -24,4 +24,4 @@ include system
 include docker
 include java
 include maven
-#include intellij
+include intellij
