@@ -1,7 +1,7 @@
 class java (
 	$java_root = "/opt/java",
-	$java_home = "${java_root}/default",
-	$java_install = "${java_root}/jdk1.8.0_92",
+	$java_home = "/opt/java/default",
+	$java_install = "/opt/java/jdk1.8.0_92",
 	$java_url = "http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz",
 	) {
 
@@ -10,7 +10,7 @@ class java (
 	}
 
 	exec { "delete-java":
-		command => "rm -rf /opt/java",
+		command => "rm -rf ${java_root}",
 		before => File["create-java-dir"],
 	}
 
