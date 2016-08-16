@@ -12,13 +12,13 @@ class docker {
 
 	exec { "apt-update":
     	command => "/usr/bin/apt-get update",
-    	before => Package["docker-install"],
+    	require => File["docker-apt-repo"],
 	}
 
 	package { "docker-install":
 		name => "docker-engine",
 		ensure => "installed",
-		require => File["docker-apt-repo"],
+		require => Exec["apt-update"],
 	}
 
 	user { "docker-group":
